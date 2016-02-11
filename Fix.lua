@@ -6,15 +6,8 @@
 
 -- 31/01/2016 fix missing GetAccountRealmCharacter function
 if not GameLib.GetAccountRealmCharacter then
-	local char 
-	local t = {}
-	function t.OnCharacterCreated()
-		char = GameLib.GetPlayerUnit()
-		if char then Apollo.RemoveEventHandler("CharacterCreated", t) end
-	end
-	Apollo.RegisterEventHandler("CharacterCreated", "OnCharacterCreated", t) 
-	t.OnCharacterCreated()
-
+	local char = GameLib.GetPlayerUnit()
+	if not char then Apollo.RegisterEventHandler("CharacterCreated", "f", {f = RequestReloadUI}) end
 	function GameLib.GetAccountRealmCharacter()
 		return { strCharacter = char and char:GetName() or "Temp Name", strRealm = "Redmoon", strAccount = "never" }
 	end
